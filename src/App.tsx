@@ -7,7 +7,7 @@ import { SymbolBuilder } from './components/SymbolBuilder';
 import { FontCard } from './components/FontCard';
 import { ToastNotification } from './components/ToastNotification';
 import { Footer } from './components/Footer';
-import { Sparkles, ChevronDown, RefreshCw, AlertCircle, Bookmark } from 'lucide-react';
+import { ChevronDown, AlertCircle } from 'lucide-react';
 
 const LOCAL_STORAGE_FAVS_KEY = 'attafont_favorites_v1';
 const BATCH_SIZE = 60;
@@ -20,22 +20,27 @@ export function App() {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('Teks berhasil disalin!');
 
-  // Favorite Fonts saved in localStorage
+  // Favorite Fonts saved in localStorage with fallback
   const [favorites, setFavorites] = useState<string[]>(() => {
     try {
-      const saved = localStorage.getItem(LOCAL_STORAGE_FAVS_KEY);
-      return saved ? JSON.parse(saved) : [];
-    } catch {
-      return [];
+      if (typeof window !== 'undefined' && window.localStorage) {
+        const saved = window.localStorage.getItem(LOCAL_STORAGE_FAVS_KEY);
+        return saved ? JSON.parse(saved) : [];
+      }
+    } catch (e) {
+      console.warn('localStorage read disabled or blocked', e);
     }
+    return [];
   });
 
-  // Save favorites to localStorage whenever updated
+  // Save favorites to localStorage whenever updated with fallback
   useEffect(() => {
     try {
-      localStorage.setItem(LOCAL_STORAGE_FAVS_KEY, JSON.stringify(favorites));
+      if (typeof window !== 'undefined' && window.localStorage) {
+        window.localStorage.setItem(LOCAL_STORAGE_FAVS_KEY, JSON.stringify(favorites));
+      }
     } catch (e) {
-      console.error('Gagal menyimpan favorit ke localStorage', e);
+      console.warn('Gagal menyimpan favorit ke localStorage', e);
     }
   }, [favorites]);
 
@@ -59,17 +64,43 @@ export function App() {
     return filteredFonts.slice(0, visibleCount);
   }, [filteredFonts, visibleCount]);
 
+  // Fallback copy function for browsers/contexts without navigator.clipboard
+  const fallbackCopyText = (textToCopy: string) => {
+    try {
+      const textArea = document.createElement('textarea');
+      textArea.value = textToCopy;
+      textArea.style.position = 'fixed';
+      textArea.style.opacity = '0';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      const successful = document.execCommand('copy');
+      document.body.removeChild(textArea);
+      if (successful) {
+        setToastMessage('Teks berhasil disalin!');
+      } else {
+        setToastMessage('Gagal menyalin teks');
+      }
+    } catch {
+      setToastMessage('Gagal menyalin teks');
+    }
+    setShowToast(true);
+    setTimeout(() => setShowToast(false), 2200);
+  };
+
   // Copy handler with toast feedback
   const handleCopy = (textToCopy: string) => {
-    navigator.clipboard.writeText(textToCopy).then(() => {
-      setToastMessage('Teks berhasil disalin!');
-      setShowToast(true);
-      setTimeout(() => setShowToast(false), 2200);
-    }).catch(() => {
-      setToastMessage('Gagal menyalin teks');
-      setShowToast(true);
-      setTimeout(() => setShowToast(false), 2200);
-    });
+    if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        setToastMessage('Teks berhasil disalin!');
+        setShowToast(true);
+        setTimeout(() => setShowToast(false), 2200);
+      }).catch(() => {
+        fallbackCopyText(textToCopy);
+      });
+    } else {
+      fallbackCopyText(textToCopy);
+    }
   };
 
   // Favorite toggle handler
