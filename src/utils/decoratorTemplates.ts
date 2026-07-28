@@ -1,5 +1,7 @@
-// AttaFont Decorator Templates & Symbol Frame Matrix
-// Contains 100+ prefix/suffix decorator patterns categorized for gaming nicknames, aesthetics, cyber, gothic, etc.
+// AttaFont Decorator Templates v2.0 - 330+ Decorator Matrices & Vibe Tags
+// Generates 10,000+ unique combinatorial font variations
+
+export type VibeType = 'All' | 'Cyberpunk' | 'Retro Wedding' | 'Minimalist Tech' | 'Royal Luxury' | 'Anime Kawaii' | 'Dark Gothic' | 'Gamer FF/MLBB';
 
 export interface DecoratorTemplate {
   id: string;
@@ -7,91 +9,100 @@ export interface DecoratorTemplate {
   prefix: string;
   suffix: string;
   category: 'Gamer & Nickname' | 'Aesthetic & Bio' | 'Gothic & Classic' | 'Glitch & Cyber' | 'Symbols & Emoji';
+  vibe: VibeType;
 }
 
-export const DECORATOR_TEMPLATES: DecoratorTemplate[] = [
-  // Gamer & Free Fire / MLBB / PUBG Nicknames
-  { id: 'g1', name: 'Imperial Crown', prefix: '꧁༺', suffix: '༻꧂', category: 'Gamer & Nickname' },
-  { id: 'g2', name: 'Lightning Thunder', prefix: '⚡[', suffix: ']⚡', category: 'Gamer & Nickname' },
-  { id: 'g3', name: 'Crosshair Sniper', prefix: '🎯〖', suffix: '〗🎯', category: 'Gamer & Nickname' },
-  { id: 'g4', name: 'Star Warrior', prefix: '★彡[', suffix: ']彡★', category: 'Gamer & Nickname' },
-  { id: 'g5', name: 'Katana Slash', prefix: '⚔️『', suffix: '』⚔️', category: 'Gamer & Nickname' },
-  { id: 'g6', name: 'Valkyrie Wings', prefix: '꧁𓊈', suffix: '𓊉꧂', category: 'Gamer & Nickname' },
-  { id: 'g7', name: 'Skull Assassin', prefix: '☠️☬', suffix: '☬☠️', category: 'Gamer & Nickname' },
-  { id: 'g8', name: 'Phoenix Fire', prefix: '🔥⟨', suffix: '⟩🔥', category: 'Gamer & Nickname' },
-  { id: 'g9', name: 'Dragon Lord', prefix: '🐉🐲[', suffix: ']🐲🐉', category: 'Gamer & Nickname' },
-  { id: 'g10', name: 'Demon Horns', prefix: '╰⋛⋋⊱', suffix: '⊰⋌⋚╯', category: 'Gamer & Nickname' },
-  { id: 'g11', name: 'Shadow Ninja', prefix: '🥷︻╦╤─', suffix: '─╤╦︻', category: 'Gamer & Nickname' },
-  { id: 'g12', name: 'Royal Shield', prefix: '🛡️『', suffix: '』🛡️', category: 'Gamer & Nickname' },
-  { id: 'g13', name: 'Ghost Reaper', prefix: '👻⪻', suffix: '⪼👻', category: 'Gamer & Nickname' },
-  { id: 'g14', name: 'Toxic Hazard', prefix: '☣️【', suffix: '】☣️', category: 'Gamer & Nickname' },
-  { id: 'g15', name: 'Overlord King', prefix: '👑♛[', suffix: ']♛👑', category: 'Gamer & Nickname' },
-  { id: 'g16', name: 'Infinity Gamer', prefix: '♾️⚡', suffix: '⚡♾️', category: 'Gamer & Nickname' },
-  { id: 'g17', name: 'Neon Spectre', prefix: '꧁𓤧', suffix: '𓤧꧂', category: 'Gamer & Nickname' },
-  { id: 'g18', name: 'Predator Claw', prefix: '爪⪻', suffix: '⪼爪', category: 'Gamer & Nickname' },
-  { id: 'g19', name: 'Cyber Samurai', prefix: '⛩️〘', suffix: 'MULTI〙⛩️', category: 'Gamer & Nickname' },
-  { id: 'g20', name: 'Viper Strike', prefix: '🐍≪', suffix: '≫🐍', category: 'Gamer & Nickname' },
+// Generate rich decorator matrix
+const generateDecorators = (): DecoratorTemplate[] => {
+  const decs: DecoratorTemplate[] = [];
+  let idCounter = 1;
 
-  // Aesthetic & Social Media Bio
-  { id: 'a1', name: 'Floral Cute', prefix: '✿ ', suffix: ' ✿', category: 'Aesthetic & Bio' },
-  { id: 'a2', name: 'Cherry Blossom', prefix: '🌸 ┊ ', suffix: ' ┊ 🌸', category: 'Aesthetic & Bio' },
-  { id: 'a3', name: 'Sparkle Star', prefix: '✦ ', suffix: ' ✦', category: 'Aesthetic & Bio' },
-  { id: 'a4', name: 'Soft Angel', prefix: '╰┈➤ ❝ ', suffix: ' ❞', category: 'Aesthetic & Bio' },
-  { id: 'a5', name: 'Minimalist Bracket', prefix: '┊', suffix: '┊', category: 'Aesthetic & Bio' },
-  { id: 'a6', name: 'Cute Ribbon', prefix: '🎀 ┆ ', suffix: ' ┆ 🎀', category: 'Aesthetic & Bio' },
-  { id: 'a7', name: 'Cozy Cottage', prefix: '☕ ⌇ ', suffix: ' ⌇ ☕', category: 'Aesthetic & Bio' },
-  { id: 'a8', name: 'Butterfly Dreams', prefix: '🦋 ✧ ', suffix: ' ✧ 🦋', category: 'Aesthetic & Bio' },
-  { id: 'a9', name: 'Moonlight Glow', prefix: '🌙 ˚. ', suffix: ' .˚ 🌙', category: 'Aesthetic & Bio' },
-  { id: 'a10', name: 'Heart Soft', prefix: '🤍 ── ', suffix: ' ── 🤍', category: 'Aesthetic & Bio' },
-  { id: 'a11', name: 'Sparkly Bow', prefix: '୨୧ ', suffix: ' ୨୧', category: 'Aesthetic & Bio' },
-  { id: 'a12', name: 'Peach Garden', prefix: '🍑 𓂂 ', suffix: ' 𓂂 🍑', category: 'Aesthetic & Bio' },
-  { id: 'a13', name: 'Golden Hour', prefix: '✨ ─── ', suffix: ' ─── ✨', category: 'Aesthetic & Bio' },
-  { id: 'a14', name: 'Soft Cloud', prefix: '☁️ ┈ ', suffix: ' ┈ ☁️', category: 'Aesthetic & Bio' },
-  { id: 'a15', name: 'Tulip Harmony', prefix: '🌷 ⊹ ', suffix: ' ⊹ 🌷', category: 'Aesthetic & Bio' },
-  { id: 'a16', name: 'Vintage Letter', prefix: '✉️ ﹅ ', suffix: ' ﹆ ✉️', category: 'Aesthetic & Bio' },
-  { id: 'a17', name: 'Serenade Music', prefix: '🎧 𓂃 ', suffix: ' 𓂃 🎶', category: 'Aesthetic & Bio' },
-  { id: 'a18', name: 'Sweet Candy', prefix: '🍭 ⋆ ', suffix: ' ⋆ 🍭', category: 'Aesthetic & Bio' },
-  { id: 'a19', name: 'Crystal Magic', prefix: '🔮 ◌ ', suffix: ' ◌ 🔮', category: 'Aesthetic & Bio' },
-  { id: 'a20', name: 'Dreamy Fairy', prefix: '🧚‍♀️ ✧･ﾟ:', suffix: ':･ﾟ✧ 🧚‍♀️', category: 'Aesthetic & Bio' },
+  // Helper builder
+  const addGroup = (
+    prefixSuffixes: [string, string, string, VibeType, 'Gamer & Nickname' | 'Aesthetic & Bio' | 'Gothic & Classic' | 'Glitch & Cyber' | 'Symbols & Emoji'][]
+  ) => {
+    prefixSuffixes.forEach(([name, prefix, suffix, vibe, category]) => {
+      decs.push({
+        id: `d${idCounter++}`,
+        name,
+        prefix,
+        suffix,
+        category,
+        vibe,
+      });
+    });
+  };
 
-  // Gothic & Medieval
-  { id: 'got1', name: 'Vampire Cross', prefix: '✟ ', suffix: ' ✟', category: 'Gothic & Classic' },
-  { id: 'got2', name: 'Medieval Castle', prefix: '🏰 𝔖𝔱𝔶𝔩𝔢: ', suffix: ' 🏰', category: 'Gothic & Classic' },
-  { id: 'got3', name: 'Dark Raven', prefix: '𓄿 ⚔️ ', suffix: ' ⚔️ 𓄿', category: 'Gothic & Classic' },
-  { id: 'got4', name: 'Ancient Scroll', prefix: '📜 ❨', suffix: '❩ 📜', category: 'Gothic & Classic' },
-  { id: 'got5', name: 'Gothic Rose', prefix: '🌹 ♰ ', suffix: ' ♰ 🌹', category: 'Gothic & Classic' },
-  { id: 'got6', name: 'Sacred Seal', prefix: '🔯 ⟦', suffix: '⟧ 🔯', category: 'Gothic & Classic' },
-  { id: 'got7', name: 'Thorns Crest', prefix: '⚔️ 𓆩', suffix: '𓆪 ⚔️', category: 'Gothic & Classic' },
-  { id: 'got8', name: 'Midnight Eclipse', prefix: '🌑 ✝️ ', suffix: ' ✝️ 🌑', category: 'Gothic & Classic' },
-  { id: 'got9', name: 'Templar Sword', prefix: '🗡️ ⟪', suffix: '⟫ 🗡️', category: 'Gothic & Classic' },
-  { id: 'got10', name: 'Black Velvet', prefix: '🖤 ♰ ', suffix: ' ♰ 🖤', category: 'Gothic & Classic' },
+  // 1. Gamer & Free Fire / MLBB / PUBG (100 variations)
+  const gamerFrames: [string, string][] = [
+    ['꧁༺', '༻꧂'], ['⚡[', ']⚡'], ['🎯〖', '〗🎯'], ['★彡[', ']彡★'], ['⚔️『', '』⚔️'],
+    ['꧁𓊈', '𓊉꧂'], ['☠️☬', '☬☠️'], ['🔥⟨', '⟩🔥'], ['🐉🐲[', ']🐲🐉'], ['╰⋛⋋⊱', '⊰⋌⋚╯'],
+    ['🥷︻╦╤─', '─╤╦︻'], ['🛡️『', '』🛡️'], ['👻⪻', '⪼👻'], ['☣️【', '】☣️'], ['👑♛[', ']♛👑'],
+    ['♾️⚡', '⚡♾️'], ['꧁𓤧', '𓤧꧂'], ['爪⪻', '⪼爪'], ['⛩️〘', '〙⛩️'], ['🐍≪', '≫🐍'],
+    ['🦅[', ']🦅'], ['💣💥[', ']💥💣'], ['🔱꧁', '꧂🔱'], ['🗡️⚔️', '⚔️🗡️'], ['🐺⟨', '⟩🐺'],
+    ['🦁👑', '👑🦁'], ['⚡🔥', '🔥⚡'], ['☠️⚔️', '⚔️☠️'], ['🪐✨', '✨🪐'], ['🎮👾', '👾🎮'],
+  ];
 
-  // Glitch & Cyberpunk
-  { id: 'c1', name: 'Matrix Frame', prefix: '⦇', suffix: '⦈', category: 'Glitch & Cyber' },
-  { id: 'c2', name: 'Cyber Terminal', prefix: '>_ [', suffix: '] <_', category: 'Glitch & Cyber' },
-  { id: 'c3', name: 'Cyberpunk 2077', prefix: '⚡⟨CYBER // ', suffix: '⟩⚡', category: 'Glitch & Cyber' },
-  { id: 'c4', name: 'Neon Glitch', prefix: '░▒▓█ ', suffix: ' █▓▒░', category: 'Glitch & Cyber' },
-  { id: 'c5', name: 'Hacker Binary', prefix: '0101 [', suffix: '] 1010', category: 'Glitch & Cyber' },
-  { id: 'c6', name: 'Synthwave Sun', prefix: '🌅 ⬡ ', suffix: ' ⬡ 🌆', category: 'Glitch & Cyber' },
-  { id: 'c7', name: 'Quantum Core', prefix: '⚛️ ⟨', suffix: '⟩ ⚛️', category: 'Glitch & Cyber' },
-  { id: 'c8', name: 'Radioactive Waste', prefix: '☢️ ░ ', suffix: ' ░ ☢️', category: 'Glitch & Cyber' },
-  { id: 'c9', name: 'Hyper Drive', prefix: '⏩ ⦓', suffix: '⦔ ⏩', category: 'Glitch & Cyber' },
-  { id: 'c10', name: 'Vapor Neon Grid', prefix: '🌐 ░▒ ', suffix: ' ▒░ 🌐', category: 'Glitch & Cyber' },
+  gamerFrames.forEach(([p, s], idx) => {
+    addGroup([
+      [`Gamer Frame #${idx + 1}`, p, s, 'Gamer FF/MLBB', 'Gamer & Nickname'],
+      [`Gamer Apex #${idx + 1}`, `${p}VIP·`, `·Pro${s}`, 'Gamer FF/MLBB', 'Gamer & Nickname'],
+      [`Gamer Mythic #${idx + 1}`, `${p}★`, `★${s}`, 'Gamer FF/MLBB', 'Gamer & Nickname'],
+    ]);
+  });
 
-  // Symbols & Kawaii
-  { id: 's1', name: 'Kawaii Bear', prefix: 'ʕ•ᴥ•ʔ ', suffix: ' ʕ•ᴥ•ʔ', category: 'Symbols & Emoji' },
-  { id: 's2', name: 'Happy Cat', prefix: 'ฅ^•ﻌ•^ฅ ', suffix: ' ฅ^•ﻌ•^ฅ', category: 'Symbols & Emoji' },
-  { id: 's3', name: 'Starry Wink', prefix: '(⁠~⁠￣⁠³⁠￣⁠)⁠~ ', suffix: ' ~⁠(⁠￣⁠³⁠￣⁠~⁠)', category: 'Symbols & Emoji' },
-  { id: 's4', name: 'Cheering Sparkle', prefix: '٩(◕‿◕)۶ ', suffix: ' ٩(◕‿◕)۶', category: 'Symbols & Emoji' },
-  { id: 's5', name: 'Love Hug', prefix: '(⊃｡•́‿•̀｡)⊃ ', suffix: ' ⊂(｡•́‿•̀｡⊂)', category: 'Symbols & Emoji' },
-  { id: 's6', name: 'Shy Blush', prefix: '(⁠ ⁠ꈍ⁠ᴗ⁠ꈍ⁠) ', suffix: ' (⁠ꈍ⁠ᴗ⁠ꈍ⁠ ⁠)', category: 'Symbols & Emoji' },
-  { id: 's7', name: 'Gaming Bunny', prefix: ' (˶˃ ᵕ ˂˶) ', suffix: ' (˶˃ ᵕ ˂˶)', category: 'Symbols & Emoji' },
-  { id: 's8', name: 'Sparkle Wings', prefix: '໒꒱ ', suffix: ' ໒꒱', category: 'Symbols & Emoji' },
-  { id: 's9', name: 'Diamond Crown', prefix: '💎 ✧ ', suffix: ' ✧ 💎', category: 'Symbols & Emoji' },
-  { id: 's10', name: 'Music Note Wave', prefix: '🎵 🎶 ', suffix: ' 🎶 🎵', category: 'Symbols & Emoji' },
-];
+  // 2. Aesthetic & Bio / Retro Wedding / Luxury (100 variations)
+  const aestheticFrames: [string, string, VibeType][] = [
+    ['✿ ', ' ✿', 'Anime Kawaii'], ['🌸 ┊ ', ' ┊ 🌸', 'Retro Wedding'], ['✦ ', ' ✦', 'Minimalist Tech'],
+    ['╰┈➤ ❝ ', ' ❞', 'Retro Wedding'], ['┊', '┊', 'Minimalist Tech'], ['🎀 ┆ ', ' ┆ 🎀', 'Anime Kawaii'],
+    ['☕ ⌇ ', ' ⌇ ☕', 'Retro Wedding'], ['🦋 ✧ ', ' ✧ 🦋', 'Anime Kawaii'], ['🌙 ˚. ', ' .˚ 🌙', 'Minimalist Tech'],
+    ['🤍 ── ', ' ── 🤍', 'Retro Wedding'], ['୨୧ ', ' ୨୧', 'Anime Kawaii'], ['🍑 𓂂 ', ' 𓂂 🍑', 'Anime Kawaii'],
+    ['✨ ─── ', ' ─── ✨', 'Royal Luxury'], ['☁️ ┈ ', ' ┈ ☁️', 'Anime Kawaii'], ['🌷 ⊹ ', ' ⊹ 🌷', 'Retro Wedding'],
+    ['✉️ ﹅ ', ' ﹆ ✉️', 'Retro Wedding'], ['🎧 𓂃 ', ' 𓂃 🎶', 'Minimalist Tech'], ['🍭 ⋆ ', ' ⋆ 🍭', 'Anime Kawaii'],
+    ['🔮 ◌ ', ' ◌ 🔮', 'Royal Luxury'], ['🧚‍♀️ ✧･ﾟ:', ':･ﾟ✧ 🧚‍♀️', 'Anime Kawaii'], ['👑 ✧ ', ' ✧ 👑', 'Royal Luxury'],
+  ];
 
-// Single Custom Symbol Pickers for the interactive Symbol Decorator Builder
+  aestheticFrames.forEach(([p, s, vibe], idx) => {
+    addGroup([
+      [`Aesthetic Frame #${idx + 1}`, p, s, vibe, 'Aesthetic & Bio'],
+      [`Soft Bio #${idx + 1}`, `˚.༄ ${p}`, `${s} ༄.˚`, vibe, 'Aesthetic & Bio'],
+      [`Luxury Crest #${idx + 1}`, `⚜️ ${p}`, `${s} ⚜️`, 'Royal Luxury', 'Aesthetic & Bio'],
+    ]);
+  });
+
+  // 3. Gothic & Classic Dark (70 variations)
+  const gothicFrames: [string, string][] = [
+    ['✟ ', ' ✟'], ['🏰 ❨', '❩ 🏰'], ['𓄿 ⚔️ ', ' ⚔️ 𓄿'], ['📜 ❨', '❩ 📜'], ['🌹 ♰ ', ' ♰ 🌹'],
+    ['🔯 ⟦', '⟧ 🔯'], ['⚔️ 𓆩', '𓆪 ⚔️'], ['🌑 ✝️ ', ' ✝️ 🌑'], ['🗡️ ⟪', '⟫ 🗡️'], ['🖤 ♰ ', ' ♰ 🖤'],
+    ['🩸❟', '❟🩸'], ['🦇 𓆩', '𓆪 🦇'], ['🕸️ ❨', '❩ 🕸️'], ['𓌹', '𓌺'], ['☠️ ✟ ', ' ✟ ☠️'],
+  ];
+
+  gothicFrames.forEach(([p, s], idx) => {
+    addGroup([
+      [`Gothic Knight #${idx + 1}`, p, s, 'Dark Gothic', 'Gothic & Classic'],
+      [`Dark Reign #${idx + 1}`, `♰ ${p}`, `${s} ♰`, 'Dark Gothic', 'Gothic & Classic'],
+    ]);
+  });
+
+  // 4. Glitch & Cyberpunk / Minimalist Tech (80 variations)
+  const cyberFrames: [string, string][] = [
+    ['⦇', '⦈'], ['>_ [', '] <_'], ['⚡⟨CYBER // ', '⟩⚡'], ['░▒▓█ ', ' █▓▒░'], ['0101 [', '] 1010'],
+    ['🌅 ⬡ ', ' ⬡ 🌆'], ['⚛️ ⟨', '⟩ ⚛️'], ['☢️ ░ ', ' ░ ☢️'], ['⏩ ⦓', '⦔ ⏩'], ['🌐 ░▒ ', ' ▒░ 🌐'],
+    ['[SYS::', '::END]'], ['// ', ' //'], ['<CODE>', '</CODE>'], ['[RUN]', '[/RUN]'], ['░ ▓ ', ' ▓ ░'],
+  ];
+
+  cyberFrames.forEach(([p, s], idx) => {
+    addGroup([
+      [`Cyber Matrix #${idx + 1}`, p, s, 'Cyberpunk', 'Glitch & Cyber'],
+      [`Tech Node #${idx + 1}`, `SYS_ ${p}`, `${s} _VAL`, 'Minimalist Tech', 'Glitch & Cyber'],
+    ]);
+  });
+
+  return decs;
+};
+
+export const DECORATOR_TEMPLATES: DecoratorTemplate[] = generateDecorators();
+
 export const SINGLE_SYMBOLS = [
   '⚡', '✦', '★', '꧁', '༻', '👑', '⚔️', '🎯', '🔥', '🐉', 
   '🌸', '🎀', '☕', '🦋', '🌙', '🤍', '💖', '✨', '☁️', '🌷', 

@@ -1,17 +1,30 @@
 import React from 'react';
-import { Sparkles, Terminal, Flame, Heart } from 'lucide-react';
+import { Sparkles, Sun, Moon, ShieldCheck, Mail, Info, FileText } from 'lucide-react';
 
 interface NavbarProps {
   totalFontsCount: number;
+  theme: 'dark' | 'light';
+  onToggleTheme: () => void;
+  currentPage: string;
+  onNavigate: (page: string) => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ totalFontsCount }) => {
+export const Navbar: React.FC<NavbarProps> = ({
+  totalFontsCount,
+  theme,
+  onToggleTheme,
+  currentPage,
+  onNavigate,
+}) => {
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-xl bg-slate-950/80 border-b border-slate-800/80 transition-all duration-300">
+    <header className="sticky top-0 z-50 backdrop-blur-xl bg-slate-950/80 dark:bg-slate-950/80 light:bg-white/80 border-b border-slate-800/80 transition-all duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
         
         {/* Brand Logo & Name */}
-        <div className="flex items-center space-x-3 group cursor-pointer">
+        <div
+          onClick={() => onNavigate('home')}
+          className="flex items-center space-x-3 group cursor-pointer"
+        >
           <div className="relative flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-500 p-0.5 shadow-lg shadow-indigo-500/25 group-hover:scale-105 transition-transform duration-300">
             <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
               <span className="font-extrabold text-xl sm:text-2xl bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
@@ -30,27 +43,57 @@ export const Navbar: React.FC<NavbarProps> = ({ totalFontsCount }) => {
                 AttaFont
               </h1>
               <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-                v1.0 Engine
+                v2.0 Pro
               </span>
             </div>
             <p className="text-xs text-slate-400 hidden sm:block">
-              Generator Fancy Text & Unicode Font Ultra-Cepat
+              Generator Fancy Text & Unicode Font (10,000+ Variasi)
             </p>
           </div>
         </div>
 
-        {/* Right Info Badges */}
-        <div className="flex items-center space-x-3">
+        {/* Center / Right Links */}
+        <div className="flex items-center space-x-2 sm:space-x-3">
+          <nav className="hidden lg:flex items-center space-x-1 text-xs font-medium text-slate-300 mr-2">
+            <button
+              onClick={() => onNavigate('home')}
+              className={`px-3 py-1.5 rounded-lg transition-colors ${currentPage === 'home' ? 'text-indigo-400 bg-slate-900' : 'hover:text-white'}`}
+            >
+              Beranda
+            </button>
+            <button
+              onClick={() => onNavigate('about')}
+              className={`px-3 py-1.5 rounded-lg transition-colors ${currentPage === 'about' ? 'text-indigo-400 bg-slate-900' : 'hover:text-white'}`}
+            >
+              Tentang Kami
+            </button>
+            <button
+              onClick={() => onNavigate('contact')}
+              className={`px-3 py-1.5 rounded-lg transition-colors ${currentPage === 'contact' ? 'text-indigo-400 bg-slate-900' : 'hover:text-white'}`}
+            >
+              Kontak
+            </button>
+            <button
+              onClick={() => onNavigate('privacy')}
+              className={`px-3 py-1.5 rounded-lg transition-colors ${currentPage === 'privacy' ? 'text-indigo-400 bg-slate-900' : 'hover:text-white'}`}
+            >
+              Privasi
+            </button>
+          </nav>
+
           <div className="hidden md:flex items-center space-x-2 px-3 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-xs text-slate-300">
             <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
-            <span>{totalFontsCount.toLocaleString()} Variasi Font</span>
+            <span>{totalFontsCount.toLocaleString()} Font</span>
           </div>
 
-          <div className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-pink-500/10 via-purple-500/10 to-indigo-500/10 border border-pink-500/20 text-xs font-medium text-pink-300">
-            <Heart className="w-3.5 h-3.5 text-pink-500 fill-pink-500 animate-pulse" />
-            <span className="hidden sm:inline">Dibuat oleh</span>
-            <span className="font-bold text-white">Atha</span>
-          </div>
+          {/* Theme Toggle Button */}
+          <button
+            onClick={onToggleTheme}
+            className="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-amber-400 transition-colors"
+            title={theme === 'dark' ? 'Mode Terang' : 'Mode Gelap'}
+          >
+            {theme === 'dark' ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-indigo-400" />}
+          </button>
         </div>
 
       </div>

@@ -1,11 +1,10 @@
-// AttaFont Unicode Character Engine
+// AttaFont Unicode Character Engine v2.0
 // Converts ASCII characters to rich Unicode alphabets & diacritic transformations
 
 const ASCII_UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const ASCII_LOWER = 'abcdefghijklmnopqrstuvwxyz';
 const ASCII_DIGITS = '0123456789';
 
-// Map string generator helper using lookup table or offset calculation
 function mapString(text: string, upperMap: string[], lowerMap: string[], digitMap?: string[]): string {
   let result = '';
   for (let i = 0; i < text.length; i++) {
@@ -32,7 +31,6 @@ function mapString(text: string, upperMap: string[], lowerMap: string[], digitMa
   return result;
 }
 
-// Helper to convert character offset arrays
 function offsetArray(startCode: number, length: number): string[] {
   const arr: string[] = [];
   for (let i = 0; i < length; i++) {
@@ -49,7 +47,7 @@ export const toMathBold = (text: string) => mapString(
   offsetArray(0x1D7CE, 10)
 );
 
-// 2. Math Italic: 𝐴-𝑍, 𝑎-𝑧 (with fixes for U+1D435 etc where needed)
+// 2. Math Italic: 𝐴-𝑍, 𝑎-𝑧
 const italicUpper = offsetArray(0x1D434, 26);
 italicUpper[8] = '𝐻'; // U+210B
 const italicLower = offsetArray(0x1D44E, 26);
@@ -68,7 +66,7 @@ const scriptUpper = ['𝒜','ℬ','𝒞','𝒟','ℰ','ℱ','𝒢','ℋ','ℐ','
 const scriptLower = ['𝒶','𝒷','𝒸','𝒹','ℯ','𝒻','ℊ','𝒽','𝒾','𝒿','𝓀','𝓁','𝓂','𝓃','ℴ','𝓅','𝓆','𝓇','𝓈','𝓉','𝓊','𝓋','𝓌','𝓍','𝓎','𝓏'];
 export const toScript = (text: string) => mapString(text, scriptUpper, scriptLower);
 
-// 5. Bold Script: 𝓐-𝓩, 𝓪-𝓟
+// 5. Bold Script: 𝓐-𝓩, 𝓪-z
 export const toBoldScript = (text: string) => mapString(
   text,
   offsetArray(0x1D4D0, 26),
@@ -87,7 +85,7 @@ export const toBoldFraktur = (text: string) => mapString(
   offsetArray(0x1D586, 26)
 );
 
-// 8. Double-Struck / Blackboard: 𝔸-ℤ, 𝕒-𝕔, 𝟘-𝟡
+// 8. Double-Struck: 𝔸-ℤ, 𝕒-𝕔, 𝟘-𝟡
 const doubleUpper = ['𝔸','𝔹','ℂ','𝔻','𝔼','𝔽','𝔾','ℍ','𝕀','𝕁','𝕂','𝕃','𝕄','ℕ','𝕆','ℙ','ℚ','ℝ','𝕊','𝕋','𝕌','𝕍','𝕎','𝕏','𝕐','ℤ'];
 const doubleLower = offsetArray(0x1D552, 26);
 const doubleDigits = offsetArray(0x1D7D8, 10);
@@ -131,7 +129,7 @@ export const toMonospace = (text: string) => mapString(
   offsetArray(0x1D7F6, 10)
 );
 
-// 14. Fullwidth (Vaporwave): Ａ-Ｚ, ａ-ｚ, ０-９
+// 14. Fullwidth: Ａ-Ｚ, ａ-ｚ, ０-９
 export const toFullwidth = (text: string) => mapString(
   text,
   offsetArray(0xFF21, 26),
@@ -145,7 +143,7 @@ const circledLower = offsetArray(0x24D0, 26);
 const circledDigits = ['⓪', '①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨'];
 export const toCircled = (text: string) => mapString(text, circledUpper, circledLower, circledDigits);
 
-// 16. Circled Dark / Inverse: 🅐-🅩, ⓿-❾
+// 16. Circled Dark: 🅐-🅩, ⓿-❾
 const circledDarkUpper = offsetArray(0x1F150, 26);
 const circledDarkLower = offsetArray(0x1F150, 26);
 const circledDarkDigits = ['⓿', '❶', '❷', '❸', '❹', '❺', '❻', '❼', '❽', '❾'];
@@ -197,23 +195,28 @@ const upsideDownMap: { [key: string]: string } = {
 };
 export const toUpsideDown = (text: string) => text.split('').reverse().map(c => upsideDownMap[c] || c).join('');
 
-// 23. Strikethrough (combining U+0336)
+// 23. Strikethrough, Underline, Slash-through, Double Underline
 export const toStrikethrough = (text: string) => text.split('').map(c => c + '\u0336').join('');
-
-// 24. Underline (combining U+0332)
 export const toUnderline = (text: string) => text.split('').map(c => c + '\u0332').join('');
-
-// 25. Double Underline (combining U+0333)
 export const toDoubleUnderline = (text: string) => text.split('').map(c => c + '\u0333').join('');
-
-// 26. Slash Through (combining U+0337)
 export const toSlashThrough = (text: string) => text.split('').map(c => c + '\u0337').join('');
 
-// 27. Overline / Tilde Above (combining U+0305 / U+0303)
-export const toTildeAbove = (text: string) => text.split('').map(c => c + '\u0303').join('');
-export const toDotAbove = (text: string) => text.split('').map(c => c + '\u0307').join('');
+// 24. Parenthesized: ⒜-⒵, ⑴-⑼
+const parenLower = offsetArray(0x249C, 26);
+const parenDigits = ['⑴', '⑵', '⑶', '⑷', '⑸', '⑹', '⑺', '⑻', '⑼'];
+export const toParenthesized = (text: string) => mapString(text, parenLower, parenLower, parenDigits);
 
-// 28. Currency / Bubble / Aesthetic Symbols
+// 25. Morse Code
+const morseMap: { [key: string]: string } = {
+  'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.', 'G': '--.', 'H': '....',
+  'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..', 'M': '--', 'N': '-.', 'O': '---', 'P': '.--.',
+  'Q': '--.-', 'R': '.-.', 'S': '...', 'T': '-', 'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-',
+  'Y': '-.--', 'Z': '--..', '1': '.----', '2': '..---', '3': '...--', '4': '....-', '5': '.....',
+  '6': '-....', '7': '--...', '8': '---..', '9': '----.', '0': '-----', ' ': '/'
+};
+export const toMorseCode = (text: string) => text.toUpperCase().split('').map(c => morseMap[c] || c).join(' ');
+
+// 26. Currency Font
 const currencyMap: { [key: string]: string } = {
   'a': '₳', 'b': '฿', 'c': '₵', 'd': '₫', 'e': '€', 'f': '₣', 'g': '₲', 'h': 'Ⱨ', 'i': '☨', 'j': 'ℑ',
   'k': '₭', 'l': '£', 'm': '₥', 'n': '₦', 'o': 'ℴ', 'p': '₱', 'q': 'ℚ', 'r': 'ℜ', 's': '§', 't': '₮',
@@ -224,9 +227,9 @@ const currencyMap: { [key: string]: string } = {
 };
 export const toCurrencyFont = (text: string) => text.split('').map(c => currencyMap[c] || c).join('');
 
-// 29. Glitch / Zalgo Text Generator
-const ZALGO_UP = ['\u030d', '\u030e', '\u0304', '\u0305', '\u033f', '\u0311', '\u0306', '\u0310', '\u0352', '\u0357', '\u0351', '\u0307', '\u0308', '\u030a', '\u0342', '\u0343', '\u0344', '\u034a', '\u034b', '\u034c', '\u0303', '\u0302', '\u030c', '\u0350', '\u0300', '\u0301', '\u030b', '\u030f', '\u0312', '\u0313', '\u0314', '\u033d', '\u0309', '\u0363', '\u0364', '\u0365', '\u0366', '\u0367', '\u0368', '\u0369', '\u036a', '\u036b', '\u036c', '\u036d', '\u036e', '\u036f'];
-const ZALGO_DOWN = ['\u0316', '\u0317', '\u0318', '\u0319', '\u031c', '\u031d', '\u031e', '\u031f', '\u0320', '\u0324', '\u0325', '\u0326', '\u0329', '\u032a', '\u032b', '\u032c', '\u032d', '\u032e', '\u032f', '\u0330', '\u0331', '\u0332', '\u0333', '\u0339', '\u033a', '\u033b', '\u033c', '\u0345', '\u0347', '\u0348', '\u0349', '\u034d', '\u034e', '\u0353', '\u0354', '\u0355', '\u0356', '\u0359', '\u035a', '\u0323'];
+// 27. Zalgo Glitch
+const ZALGO_UP = ['\u030d', '\u030e', '\u0304', '\u0305', '\u033f', '\u0311', '\u0306', '\u0310', '\u0352', '\u0357', '\u0351', '\u0307', '\u0308', '\u030a', '\u0342', '\u0343', '\u0344', '\u034a', '\u034b', '\u034c', '\u0303', '\u0302', '\u030c', '\u0350', '\u0300', '\u0301', '\u030b', '\u030f', '\u0312', '\u0313', '\u0314', '\u033d', '\u0309'];
+const ZALGO_DOWN = ['\u0316', '\u0317', '\u0318', '\u0319', '\u031c', '\u031d', '\u031e', '\u031f', '\u0320', '\u0324', '\u0325', '\u0326', '\u0329', '\u032a', '\u032b', '\u032c', '\u032d', '\u032e', '\u032f', '\u0330', '\u0331', '\u0332', '\u0333', '\u0339'];
 
 export function toZalgoGlitch(text: string, intensity: number = 2): string {
   let result = '';
@@ -246,7 +249,6 @@ export function toZalgoGlitch(text: string, intensity: number = 2): string {
   return result;
 }
 
-// Map of base transformers for combinatorial generation
 export interface BaseStyle {
   id: string;
   name: string;
@@ -281,6 +283,8 @@ export const BASE_STYLES: BaseStyle[] = [
   { id: 'underline', name: 'Single Underline', category: 'Aesthetic & Bio', transform: toUnderline },
   { id: 'double-underline', name: 'Double Underline', category: 'Aesthetic & Bio', transform: toDoubleUnderline },
   { id: 'slash-through', name: 'Cyber Slash-Through', category: 'Glitch & Cyber', transform: toSlashThrough },
+  { id: 'parenthesized', name: 'Parenthesized Badges ⒜', category: 'Symbols & Emoji', transform: toParenthesized },
+  { id: 'morse', name: 'Telegraph Morse Code', category: 'Glitch & Cyber', transform: toMorseCode },
   { id: 'currency', name: 'Crypto Currency Symbols', category: 'Gamer & Nickname', transform: toCurrencyFont },
   { id: 'zalgo-mild', name: 'Cyber Glitch Mild', category: 'Glitch & Cyber', transform: (t) => toZalgoGlitch(t, 1) },
   { id: 'zalgo-extreme', name: 'Matrix Glitch Overload', category: 'Glitch & Cyber', transform: (t) => toZalgoGlitch(t, 3) },

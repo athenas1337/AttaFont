@@ -1,18 +1,22 @@
 import React, { useState } from 'react';
 import { FontOutput } from '../utils/fontGenerator';
-import { Copy, Check, Star, Sparkles } from 'lucide-react';
+import { Copy, Check, Star, Sparkles, Columns } from 'lucide-react';
 
 interface FontCardProps {
   font: FontOutput;
   isFavorite: boolean;
+  isCompared: boolean;
   onToggleFavorite: (id: string) => void;
+  onToggleCompare: (font: FontOutput) => void;
   onCopy: (text: string) => void;
 }
 
 export const FontCard: React.FC<FontCardProps> = ({
   font,
   isFavorite,
+  isCompared,
   onToggleFavorite,
+  onToggleCompare,
   onCopy,
 }) => {
   const [copied, setCopied] = useState(false);
@@ -27,6 +31,11 @@ export const FontCard: React.FC<FontCardProps> = ({
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     onToggleFavorite(font.id);
+  };
+
+  const handleCompareClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onToggleCompare(font);
   };
 
   return (
@@ -48,18 +57,33 @@ export const FontCard: React.FC<FontCardProps> = ({
           )}
         </div>
 
-        {/* Favorite Star Button */}
-        <button
-          onClick={handleFavoriteClick}
-          title={isFavorite ? 'Hapus dari Favorit' : 'Tambah ke Favorit'}
-          className={`p-1.5 rounded-lg transition-colors shrink-0 ${
-            isFavorite
-              ? 'text-amber-400 bg-amber-400/10 hover:bg-amber-400/20'
-              : 'text-slate-500 hover:text-amber-400 hover:bg-slate-800'
-          }`}
-        >
-          <Star className={`w-4 h-4 ${isFavorite ? 'fill-amber-400' : ''}`} />
-        </button>
+        <div className="flex items-center space-x-1 shrink-0">
+          {/* Multi-Font Compare Button */}
+          <button
+            onClick={handleCompareClick}
+            title={isCompared ? 'Hapus dari Komparasi' : 'Tambah ke Komparasi Side-by-Side'}
+            className={`p-1.5 rounded-lg transition-colors ${
+              isCompared
+                ? 'text-indigo-400 bg-indigo-500/20 border border-indigo-500/40'
+                : 'text-slate-500 hover:text-indigo-400 hover:bg-slate-800'
+            }`}
+          >
+            <Columns className="w-3.5 h-3.5" />
+          </button>
+
+          {/* Favorite Star Button */}
+          <button
+            onClick={handleFavoriteClick}
+            title={isFavorite ? 'Hapus dari Favorit' : 'Tambah ke Favorit'}
+            className={`p-1.5 rounded-lg transition-colors ${
+              isFavorite
+                ? 'text-amber-400 bg-amber-400/10 hover:bg-amber-400/20'
+                : 'text-slate-500 hover:text-amber-400 hover:bg-slate-800'
+            }`}
+          >
+            <Star className={`w-3.5 h-3.5 ${isFavorite ? 'fill-amber-400' : ''}`} />
+          </button>
+        </div>
       </div>
 
       {/* Main Converted Font Display */}
@@ -72,7 +96,7 @@ export const FontCard: React.FC<FontCardProps> = ({
       {/* Bottom Action Footer */}
       <div className="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between">
         <span className="text-[11px] font-medium text-slate-500 group-hover:text-slate-400">
-          {font.category}
+          {font.category} • <span className="text-indigo-400/80">{font.vibe}</span>
         </span>
 
         <button
