@@ -4,8 +4,7 @@ import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  // Dynamic base: /AttaFont/ on GitHub Actions Pages build, ./ on Netlify / Vercel / Local
-  base: process.env.GITHUB_ACTIONS ? '/AttaFont/' : './',
+  base: './',
   plugins: [react()],
   resolve: {
     alias: {
