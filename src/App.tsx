@@ -9,6 +9,7 @@ import { MicroFontEditor } from './components/MicroFontEditor';
 import { SymbolBuilder } from './components/SymbolBuilder';
 import { FontCard } from './components/FontCard';
 import { FontComparisonModal } from './components/FontComparisonModal';
+import { SocialPreviewModal } from './components/SocialPreviewModal';
 import { AdPlaceholder } from './components/AdPlaceholder';
 import { CookieBanner } from './components/CookieBanner';
 import { ToastNotification } from './components/ToastNotification';
@@ -22,7 +23,8 @@ import { ContactUs } from './components/pages/ContactUs';
 
 import { ChevronDown, AlertCircle, Columns } from 'lucide-react';
 
-const LOCAL_STORAGE_FAVS_KEY = 'attafont_favorites_v2';
+const LOCAL_STORAGE_FAVS_KEY = 'attafont_favorites_v3';
+const LOCAL_STORAGE_THEME_KEY = 'attafont_theme_v3';
 const BATCH_SIZE = 60;
 
 export function App() {
@@ -34,8 +36,29 @@ export function App() {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('Teks berhasil disalin!');
   
-  // Theme state: dark / light
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+  // Theme state: dark / light with persistent localStorage & HTML class sync
+  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        const saved = window.localStorage.getItem(LOCAL_STORAGE_THEME_KEY);
+        if (saved === 'light' || saved === 'dark') return saved;
+      }
+    } catch {}
+    return 'dark';
+  });
+
+  useEffect(() => {
+    try {
+      if (typeof window !== 'undefined') {
+        window.localStorage.setItem(LOCAL_STORAGE_THEME_KEY, theme);
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      }
+    } catch {}
+  }, [theme]);
 
   // Router Page State: home | privacy | terms | about | contact
   const [currentPage, setCurrentPage] = useState('home');
@@ -43,6 +66,9 @@ export function App() {
   // Multi-Font Comparison Modal state (Up to 4 fonts)
   const [comparedFonts, setComparedFonts] = useState<FontOutput[]>([]);
   const [isCompareOpen, setIsCompareOpen] = useState(false);
+
+  // Social / Game Mockup Preview state
+  const [previewFont, setPreviewFont] = useState<FontOutput | null>(null);
 
   // Favorite Fonts saved in localStorage with fallback
   const [favorites, setFavorites] = useState<string[]>(() => {
@@ -231,43 +257,43 @@ export function App() {
             {/* Section Header Info */}
             <div className="flex items-center justify-between my-4">
               <div className="flex items-center space-x-2 flex-wrap gap-2">
-                <h2 className="text-lg font-bold text-white flex items-center gap-2">
+                <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                   <span>Gaya Font ({filteredFonts.length.toLocaleString()})</span>
                 </h2>
                 {activeVibe !== 'All' && (
-                  <span className="text-xs text-pink-400 bg-pink-500/10 px-2.5 py-1 rounded-full border border-pink-500/20">
-                    Vibe: {activeVibe}
+                  <span className="text-xs text-pink-600 dark:text-pink-400 bg-pink-50 dark:bg-pink-500/10 px-2.5 py-1 rounded-full border border-pink-200 dark:border-pink-500/20 font-semibold">
+                    Mood: {activeVibe}
                   </span>
                 )}
                 {searchQuery && (
-                  <span className="text-xs text-indigo-400 bg-indigo-500/10 px-2.5 py-1 rounded-full border border-indigo-500/20">
+                  <span className="text-xs text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-500/10 px-2.5 py-1 rounded-full border border-indigo-200 dark:border-indigo-500/20 font-semibold">
                     Cari: "{searchQuery}"
                   </span>
                 )}
               </div>
 
-              <span className="text-xs text-slate-400 font-mono hidden sm:inline-block">
+              <span className="text-xs text-slate-500 dark:text-slate-400 font-mono hidden sm:inline-block">
                 Menampilkan {visibleFonts.length} dari {filteredFonts.length}
               </span>
             </div>
 
             {/* Empty State when no fonts found */}
             {filteredFonts.length === 0 ? (
-              <div className="bg-slate-900/60 border border-slate-800 rounded-3xl p-12 text-center space-y-4 my-8">
-                <div className="w-16 h-16 rounded-full bg-slate-800 flex items-center justify-center mx-auto text-amber-400">
+              <div className="bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-3xl p-12 text-center space-y-4 my-8 shadow-sm">
+                <div className="w-16 h-16 rounded-full bg-amber-50 dark:bg-slate-800 flex items-center justify-center mx-auto text-amber-500">
                   <AlertCircle className="w-8 h-8" />
                 </div>
                 {activeCategory === 'Favorites' ? (
                   <div>
-                    <h3 className="text-lg font-bold text-white mb-1">Belum Ada Font Favorit</h3>
-                    <p className="text-sm text-slate-400 max-w-md mx-auto">
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">Belum Ada Font Favorit</h3>
+                    <p className="text-sm text-slate-500 dark:text-slate-400 max-w-md mx-auto">
                       Klik ikon bintang pada kartu font mana saja untuk menyimpannya ke daftar favorit kamu!
                     </p>
                   </div>
                 ) : (
                   <div>
-                    <h3 className="text-lg font-bold text-white mb-1">Font Tidak Ditemukan</h3>
-                    <p className="text-sm text-slate-400 max-w-md mx-auto">
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">Font Tidak Ditemukan</h3>
+                    <p className="text-sm text-slate-500 dark:text-slate-400 max-w-md mx-auto">
                       Coba ubah kata kunci pencarian atau ganti filter mood/vibe.
                     </p>
                   </div>
@@ -285,6 +311,7 @@ export function App() {
                       onToggleFavorite={handleToggleFavorite}
                       onToggleCompare={handleToggleCompare}
                       onCopy={handleCopy}
+                      onOpenPreview={(f) => setPreviewFont(f)}
                     />
 
                     {/* In-List Native Ad Unit inserted after every 24 cards */}
@@ -301,7 +328,7 @@ export function App() {
               <div className="text-center mt-10 mb-6">
                 <button
                   onClick={() => setVisibleCount((prev) => prev + BATCH_SIZE)}
-                  className="inline-flex items-center space-x-2 px-8 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm transition-all shadow-lg shadow-indigo-600/30 hover:scale-105 active:scale-95"
+                  className="inline-flex items-center space-x-2 px-8 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm transition-all shadow-lg shadow-indigo-600/30 hover:scale-105 active:scale-95"
                 >
                   <span>Muat Lebih Banyak Font ({filteredFonts.length - visibleCount} tersisa)</span>
                   <ChevronDown className="w-4 h-4" />
@@ -324,6 +351,13 @@ export function App() {
         onRemoveFont={handleRemoveComparedFont}
         onCopy={handleCopy}
         inputText={inputText}
+      />
+
+      {/* Social Media & Game Bio Preview Modal */}
+      <SocialPreviewModal
+        font={previewFont}
+        onClose={() => setPreviewFont(null)}
+        onCopy={handleCopy}
       />
 
       {/* Cookie Consent Banner */}

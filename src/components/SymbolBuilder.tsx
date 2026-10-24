@@ -28,7 +28,7 @@ export const SymbolBuilder: React.FC<SymbolBuilderProps> = ({ inputText, onCopy 
   };
 
   return (
-    <div className="bg-gradient-to-br from-slate-900 via-indigo-950/40 to-slate-900 border border-indigo-500/20 rounded-3xl p-5 sm:p-7 shadow-2xl relative overflow-hidden mb-8">
+    <div className="bg-gradient-to-br from-indigo-50/50 via-white to-purple-50/50 dark:from-slate-900 dark:via-indigo-950/40 dark:to-slate-900 border border-indigo-200 dark:border-indigo-500/20 rounded-3xl p-5 sm:p-7 shadow-sm dark:shadow-2xl relative overflow-hidden mb-8 transition-colors">
       {/* Background Glow */}
       <div className="absolute top-0 right-0 w-72 h-72 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -37,31 +37,31 @@ export const SymbolBuilder: React.FC<SymbolBuilderProps> = ({ inputText, onCopy 
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <div className="p-2 rounded-xl bg-indigo-600/20 border border-indigo-500/30 text-indigo-400">
+            <div className="p-2 rounded-xl bg-indigo-100 dark:bg-indigo-600/20 border border-indigo-200 dark:border-indigo-500/30 text-indigo-600 dark:text-indigo-400">
               <SlidersHorizontal className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-lg sm:text-xl font-extrabold text-white flex items-center gap-2">
+              <h2 className="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
                 Custom Symbol Decorator Builder
               </h2>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 Rakit bingkai & simbol khusus pilihanmu secara manual
               </p>
             </div>
           </div>
 
-          <span className="hidden sm:inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
-            <Sparkles className="w-3.5 h-3.5 mr-1 text-amber-400" /> Studio Builder
+          <span className="hidden sm:inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-indigo-100 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-500/30">
+            <Sparkles className="w-3.5 h-3.5 mr-1 text-amber-500" /> Studio Builder
           </span>
         </div>
 
         {/* Live Preview Box */}
-        <div className="bg-slate-950/80 border border-slate-800 rounded-2xl p-4 sm:p-6 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-inner">
+        <div className="bg-white dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 sm:p-6 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm dark:shadow-inner">
           <div className="w-full text-center sm:text-left overflow-x-auto py-2">
-            <span className="text-xs uppercase tracking-wider text-slate-400 font-semibold block mb-1">
+            <span className="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold block mb-1">
               Hasil Decorator Custom:
             </span>
-            <div className="text-xl sm:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-indigo-200 to-pink-300 tracking-wide font-mono break-all">
+            <div className="text-xl sm:text-2xl font-bold text-indigo-600 dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-emerald-300 dark:via-indigo-200 dark:to-pink-300 tracking-wide font-mono break-all">
               {customBuiltText}
             </div>
           </div>
@@ -92,22 +92,22 @@ export const SymbolBuilder: React.FC<SymbolBuilderProps> = ({ inputText, onCopy 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Prefix Selector */}
           <div className="space-y-2">
-            <label className="text-xs font-semibold text-slate-300 flex items-center justify-between">
+            <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 flex items-center justify-between">
               <span>Simbol Depan (Prefix):</span>
-              <span className="font-mono text-indigo-400">{prefixSymbol}</span>
+              <span className="font-mono text-indigo-600 dark:text-indigo-400 font-bold">{prefixSymbol}</span>
             </label>
             <input
               type="text"
               value={prefixSymbol}
               onChange={(e) => setPrefixSymbol(e.target.value)}
-              className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-slate-100 text-sm focus:border-indigo-500 focus:outline-none"
+              className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-slate-100 text-sm focus:border-indigo-500 focus:outline-none"
             />
             <div className="flex flex-wrap gap-1.5 pt-1 max-h-24 overflow-y-auto no-scrollbar">
               {SINGLE_SYMBOLS.map((sym, idx) => (
                 <button
                   key={`prefix-${idx}`}
                   onClick={() => setPrefixSymbol(prefixSymbol + sym)}
-                  className="px-2 py-1 bg-slate-900 hover:bg-slate-800 border border-slate-700/60 rounded-lg text-xs font-mono text-slate-300 hover:text-indigo-400 transition-colors"
+                  className="px-2 py-1 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700/60 rounded-lg text-xs font-mono text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                 >
                   {sym}
                 </button>
@@ -117,22 +117,22 @@ export const SymbolBuilder: React.FC<SymbolBuilderProps> = ({ inputText, onCopy 
 
           {/* Suffix Selector */}
           <div className="space-y-2">
-            <label className="text-xs font-semibold text-slate-300 flex items-center justify-between">
+            <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 flex items-center justify-between">
               <span>Simbol Belakang (Suffix):</span>
-              <span className="font-mono text-indigo-400">{suffixSymbol}</span>
+              <span className="font-mono text-indigo-600 dark:text-indigo-400 font-bold">{suffixSymbol}</span>
             </label>
             <input
               type="text"
               value={suffixSymbol}
               onChange={(e) => setSuffixSymbol(e.target.value)}
-              className="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-slate-100 text-sm focus:border-indigo-500 focus:outline-none"
+              className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-slate-100 text-sm focus:border-indigo-500 focus:outline-none"
             />
             <div className="flex flex-wrap gap-1.5 pt-1 max-h-24 overflow-y-auto no-scrollbar">
               {SINGLE_SYMBOLS.map((sym, idx) => (
                 <button
                   key={`suffix-${idx}`}
                   onClick={() => setSuffixSymbol(suffixSymbol + sym)}
-                  className="px-2 py-1 bg-slate-900 hover:bg-slate-800 border border-slate-700/60 rounded-lg text-xs font-mono text-slate-300 hover:text-indigo-400 transition-colors"
+                  className="px-2 py-1 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700/60 rounded-lg text-xs font-mono text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                 >
                   {sym}
                 </button>
@@ -145,9 +145,9 @@ export const SymbolBuilder: React.FC<SymbolBuilderProps> = ({ inputText, onCopy 
         <div className="flex items-center justify-between pt-1">
           <button
             onClick={handleSwap}
-            className="flex items-center space-x-1.5 px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-xs font-medium text-slate-300 rounded-lg border border-slate-700 transition-colors"
+            className="flex items-center space-x-1.5 px-3 py-1.5 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-300 rounded-lg border border-slate-200 dark:border-slate-700 transition-colors"
           >
-            <RefreshCw className="w-3.5 h-3.5 text-indigo-400" />
+            <RefreshCw className="w-3.5 h-3.5 text-indigo-500 dark:text-indigo-400" />
             <span>Tukar Depan / Belakang</span>
           </button>
 
@@ -156,7 +156,7 @@ export const SymbolBuilder: React.FC<SymbolBuilderProps> = ({ inputText, onCopy 
               setPrefixSymbol('');
               setSuffixSymbol('');
             }}
-            className="text-xs text-rose-400 hover:underline"
+            className="text-xs text-rose-500 hover:underline font-semibold"
           >
             Reset Simbol
           </button>
