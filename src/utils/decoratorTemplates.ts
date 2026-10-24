@@ -116,7 +116,7 @@ export const DECORATOR_TEMPLATES: DecoratorTemplate[] = [
   { id: 'c_rad', name: 'Radioactive Waste', prefix: '☢️ ░ ', suffix: ' ░ ☢️', category: 'Glitch & Cyber', vibe: 'Cyberpunk' },
   { id: 'c_warp', name: 'Hyperdrive Warp', prefix: '⏩ ⦓', suffix: '⦔ ⏩', category: 'Glitch & Cyber', vibe: 'Cyberpunk' },
   { id: 'c_vaporgrid', name: 'Vapor Neon Grid', prefix: '🌐 ░▒ ', suffix: ' ▒░ 🌐', category: 'Glitch & Cyber', vibe: 'Cyberpunk' },
-  { id: 'c_sysexec', name: 'Hacker System Exec', prefix: '[SYS::', '::END]', category: 'Glitch & Cyber', vibe: 'Minimalist Tech' },
+  { id: 'c_sysexec', name: 'Hacker System Exec', prefix: '[SYS::', suffix: '::END]', category: 'Glitch & Cyber', vibe: 'Minimalist Tech' },
   { id: 'c_sourcecode', name: 'Source Code Tag', prefix: '<CODE> ', suffix: ' </CODE>', category: 'Glitch & Cyber', vibe: 'Minimalist Tech' },
   { id: 'c_run', name: 'Cyber Run Shell', prefix: '[RUN] ', suffix: ' [/RUN]', category: 'Glitch & Cyber', vibe: 'Minimalist Tech' },
   { id: 'c_node', name: 'Sub-Atomic Node', prefix: '⦇', suffix: '⦈', category: 'Glitch & Cyber', vibe: 'Minimalist Tech' },
